@@ -6,48 +6,65 @@ import java.util.Queue;
 import java.util.Random;
 
 public class DuckRace {
-    ArrayList<Queue<Integer>> myList;
-    ArrayList<Queue<Integer>> myList2;
 
-    public DuckRace(int number){
-        myList = new ArrayList<>();
-        int count = 1;
-        for (int i = 0; i < number; i++){
-            Queue<Integer> myQueue = new LinkedList<>();
-            for (int j = 0; j < number; j++){
-                myQueue.add(count);
-                count++;
-            }
-            myList.add(myQueue);
+    ArrayList<Queue<Integer>> myList;
+
+    public DuckRace(int number) {
+        myList = makeList(number);
+        myList = makeDucks(number);
+        while (myList.size() > 1) {
+            myList = addDucks(myList);
         }
-        for (Queue<Integer> a : myList){
-            System.out.println(a);
-        }
-        System.out.println();
-        startRace();
     }
 
-    public void startRace(){
-        myList2 = new ArrayList<>();
-        for (int i = 0; i < myList.size()-1; i++){
-            Queue<Integer> myQueue = new LinkedList<>();
-            for (int j = 0; j < myList.size()-1; j++) {
-                Random rand = new Random();
-                int randNum = rand.nextInt(myList.size());
-                while (myList.get(randNum).peek() == null) {
-                    randNum = rand.nextInt(myList.size());
-                }
-                myQueue.add(myList.get(randNum).poll());
-            }
-            myList2.add(myQueue);
+    public ArrayList<Queue<Integer>> makeList(int rows) {
+        ArrayList<Queue<Integer>> duckList = new ArrayList<>();
+        while (duckList.size() < rows) {
+            duckList.add(new LinkedList<>());
         }
-        for (Queue<Integer> a : myList2){
+        return duckList;
+    }
+
+    public ArrayList<Queue<Integer>> makeDucks(int ducks) {
+        ArrayList<Queue<Integer>> duckList = new ArrayList<>();
+        int count;
+        for (int i = 1; i <= ducks; i++) {
+            count = i;
+            Queue<Integer> myQueue = new LinkedList<>();
+            for (int j = 1; j <= ducks; j++) {
+                myQueue.add(count);
+                count += 10;
+            }
+            duckList.add(myQueue);
+        }
+        for (Queue<Integer> a : duckList) {
             System.out.println(a);
         }
         System.out.println();
-        if (myList.size() != 1){
-            myList = myList2;
-            startRace();
+        return duckList;
+    }
+
+    public ArrayList<Queue<Integer>> addDucks(ArrayList<Queue<Integer>> duckList) {
+        ArrayList<Queue<Integer>> newDuckList = makeList(duckList.size() - 1);
+        Random random = new Random();
+        for (int i = 0; i < newDuckList.size() * newDuckList.size(); i++) {
+            int randomNumber = random.nextInt(duckList.size());
+            while (duckList.get(randomNumber).peek() == null) {
+                if (duckList.get(randomNumber).peek() == null){
+                    duckList.remove(randomNumber);
+                }
+                randomNumber = random.nextInt(duckList.size());
+            }
+            int randomNumber2 = random.nextInt(newDuckList.size());
+            while (newDuckList.get(randomNumber2).size() >= newDuckList.size()) {
+                randomNumber2 = random.nextInt(newDuckList.size());
+            }
+            newDuckList.get(randomNumber2).add(duckList.get(randomNumber).poll());
         }
+        for (Queue<Integer> a : newDuckList) {
+            System.out.println(a);
+        }
+        System.out.println();
+        return newDuckList;
     }
 }
