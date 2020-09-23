@@ -10,7 +10,6 @@ public class DuckRace {
     ArrayList<Queue<Integer>> myList;
 
     public DuckRace(int number) {
-        myList = makeList(number);
         myList = makeDucks(number);
         System.out.println(this);
         while (myList.size() > 1) {
