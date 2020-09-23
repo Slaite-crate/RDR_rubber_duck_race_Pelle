@@ -12,8 +12,10 @@ public class DuckRace {
     public DuckRace(int number) {
         myList = makeList(number);
         myList = makeDucks(number);
+        System.out.println(this);
         while (myList.size() > 1) {
             myList = addDucks(myList);
+            System.out.println(this);
         }
     }
 
@@ -37,10 +39,6 @@ public class DuckRace {
             }
             duckList.add(myQueue);
         }
-        for (Queue<Integer> a : duckList) {
-            System.out.println(a);
-        }
-        System.out.println();
         return duckList;
     }
 
@@ -61,10 +59,15 @@ public class DuckRace {
             }
             newDuckList.get(randomNumber2).add(duckList.get(randomNumber).poll());
         }
-        for (Queue<Integer> a : newDuckList) {
-            System.out.println(a);
-        }
-        System.out.println();
         return newDuckList;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder string = new StringBuilder();
+        for (Queue<Integer> a : myList) {
+            string.append(a).append("\n");
+        }
+        return string.toString();
     }
 }
