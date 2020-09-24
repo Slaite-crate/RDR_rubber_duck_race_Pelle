@@ -8,10 +8,10 @@ import java.util.Random;
 public class DuckRace {
 
     ArrayList<Queue<Integer>> myList;
+    ArrayList<Queue<Integer>> myList2;
 
     public DuckRace(int number) {
         myList = makeDucks(number);
-        System.out.println(this);
         while (myList.size() > 1) {
             myList = addDucks(myList);
             System.out.println(this);
@@ -42,9 +42,9 @@ public class DuckRace {
     }
 
     public ArrayList<Queue<Integer>> addDucks(ArrayList<Queue<Integer>> duckList) {
-        ArrayList<Queue<Integer>> newDuckList = makeList(duckList.size() - 1);
+        myList2 = makeList(duckList.size() - 1);
         Random random = new Random();
-        for (int i = 0; i < newDuckList.size() * newDuckList.size(); i++) {
+        for (int i = 0; i < myList2.size() * myList2.size(); i++) {
             int randomNumber = random.nextInt(duckList.size());
             while (duckList.get(randomNumber).peek() == null) {
                 if (duckList.get(randomNumber).peek() == null){
@@ -52,13 +52,21 @@ public class DuckRace {
                 }
                 randomNumber = random.nextInt(duckList.size());
             }
-            int randomNumber2 = random.nextInt(newDuckList.size());
-            while (newDuckList.get(randomNumber2).size() >= newDuckList.size()) {
-                randomNumber2 = random.nextInt(newDuckList.size());
+            int randomNumber2 = random.nextInt(myList2.size());
+            while (myList2.get(randomNumber2).size() >= myList2.size()) {
+                randomNumber2 = random.nextInt(myList2.size());
             }
-            newDuckList.get(randomNumber2).add(duckList.get(randomNumber).poll());
+            myList2.get(randomNumber2).add(duckList.get(randomNumber).poll());
         }
-        return newDuckList;
+        return myList2;
+    }
+
+    public String getMyList2() {
+        StringBuilder string = new StringBuilder();
+        for (Queue<Integer> a : myList2) {
+            string.append(a).append("\n");
+        }
+        return string.toString();
     }
 
     @Override
